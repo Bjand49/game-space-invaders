@@ -1,0 +1,21 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:Windows
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+
+#---------------------------------- Content ---------------------------------#
+
+#begin ../../../../OneDrive/Skrivebord/sheet.png
+/copy:../../../../OneDrive/Skrivebord/sheet.png;images/sheet.png
+
+#begin images/atlas-definition.xml
+/copy:images/atlas-definition.xml
+

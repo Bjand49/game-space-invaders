@@ -2,14 +2,14 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Space_Invaders.Core.Graphics;
+using SpaceInvaders.Entities;
+using System.Collections.Generic;
 
 namespace Space_Invaders
 {
     public class Game1 : Game
     {
-        private AnimatedSprite _enemy1;
-        private AnimatedSprite _enemy2;
-        private AnimatedSprite _enemy3;
+        private List<Row> _rows;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         // Defines the slime sprite.
@@ -19,6 +19,8 @@ namespace Space_Invaders
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
+            _graphics.PreferredBackBufferWidth = 1200;
+            _graphics.PreferredBackBufferHeight = 840;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -36,14 +38,13 @@ namespace Space_Invaders
             //  Create a TextureAtlas instance from the atlas
             TextureAtlas atlas = TextureAtlas.FromFile(Content, "images/atlas-definition.xml");
 
-            // retrieve the slime region from the atlas.
-            // Create the slime animated sprite from the atlas.
-            _enemy1 = atlas.CreateAnimatedSprite("enemy1-animation");
-            _enemy1.Scale = new Vector2(4.0f, 4.0f);
-            _enemy2 = atlas.CreateAnimatedSprite("enemy2-animation");
-            _enemy2.Scale = new Vector2(4.0f, 4.0f);
-            _enemy3 = atlas.CreateAnimatedSprite("enemy3-animation");
-            _enemy3.Scale = new Vector2(4.0f, 4.0f);
+            _rows = new List<Row>(){
+                new Row(atlas, "small-enemy-animation",0),
+                new Row(atlas, "medium-enemy-animation",-20),
+                new Row(atlas, "medium-enemy-animation",-40),
+                new Row(atlas, "big-enemy-animation",-60),
+                new Row(atlas, "big-enemy-animation",-80)
+            };
         }
 
         protected override void Update(GameTime gameTime)
@@ -52,9 +53,10 @@ namespace Space_Invaders
                 Exit();
 
             // TODO: Add your update logic here
-            _enemy1.Update(gameTime);
-            _enemy2.Update(gameTime);
-            _enemy3.Update(gameTime);
+            //_enemy1.Update(gameTime);
+            //_enemy2.Update(gameTime);
+            //_enemy3.Update(gameTime);
+            _rows.ForEach(x=> x.Update(gameTime));
 
             base.Update(gameTime);
         }
@@ -67,9 +69,10 @@ namespace Space_Invaders
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             // Draw the bat texture region 10px to the right of the slime at a scale of 4.0
-            _enemy1.Draw(_spriteBatch, Vector2.One);
-            _enemy2.Draw(_spriteBatch, new Vector2(18*4, 0));
-            _enemy3.Draw(_spriteBatch, new Vector2(36*4, 0));
+            //_enemy1.Draw(_spriteBatch, Vector2.One);
+            //_enemy2.Draw(_spriteBatch, new Vector2(18 * 4, 0));
+            //_enemy3.Draw(_spriteBatch, new Vector2(36 * 4, 0));
+            _rows.ForEach(x => x.Draw(_spriteBatch));
 
             // Always end the sprite batch when finished.
             _spriteBatch.End();

@@ -19,8 +19,8 @@ namespace Space_Invaders
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            _graphics.PreferredBackBufferWidth = 1200;
-            _graphics.PreferredBackBufferHeight = 840;
+            //_graphics.PreferredBackBufferWidth = 1200;
+            //_graphics.PreferredBackBufferHeight = 840;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }

@@ -10,9 +10,6 @@ namespace SpaceInvaders.Entities
 {
     public class Bullet
     {
-        private bool _isDisposed { get; set; }
-        protected ContentManager Content { get; }
-
         private TimeSpan _lastUpdated = new TimeSpan();
         public Vector2 Origin { get; private set; }
 

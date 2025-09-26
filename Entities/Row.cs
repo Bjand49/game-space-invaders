@@ -12,11 +12,12 @@ namespace SpaceInvaders.Entities
 {
     public class Row
     {
-        private float _x = 0;
+        private float _x = 10;
         private float _y;
         private TimeSpan _lastUpdated = new TimeSpan();
+        private bool _movingRight = true;
         private static readonly float SCALE = 3.0f;
-        private static readonly float X_INCREMENT = 3.0f;
+        private static readonly float X_INCREMENT = 10.0f;
         private static readonly int ROW_ENEMY_AMOUNT = 12;
         private static readonly int X_OFFSET = -25;
         private static readonly int Y_OFFSET = -30;
@@ -34,16 +35,19 @@ namespace SpaceInvaders.Entities
         }
         public void Update(GameTime gametime)
         {
-            if (gametime.TotalGameTime > _lastUpdated.Add(new TimeSpan(0, 0, 1)))
+            if (gametime.TotalGameTime > _lastUpdated.Add(new TimeSpan(0, 0, 0, 0, 100)))
             {
-                _x += 10;
+                _x += _movingRight ? X_INCREMENT : -X_INCREMENT;
                 _lastUpdated = gametime.TotalGameTime;
+                if (_x >= 100 || _x < 10)
+                {
+                    _movingRight = !_movingRight;
+                    _y += 20;
+                }
+
             }
-            if (_x > 100)
-            {
-                _y += 20;
-                _x = 0;
-            }
+
+
             _enemies.ForEach(x =>
             {
                 x.Update(gametime);

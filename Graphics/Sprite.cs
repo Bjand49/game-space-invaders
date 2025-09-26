@@ -5,6 +5,20 @@ namespace Space_Invaders.Core.Graphics
 {
     public class Sprite
     {
+
+        /// <summary>
+        /// Creates a new sprite.
+        /// </summary>
+        public Sprite() { }
+
+        /// <summary>
+        /// Creates a new sprite using the specified source texture region.
+        /// </summary>
+        /// <param name="region">The texture region to use as the source texture region for this sprite.</param>
+        public Sprite(TextureRegion region)
+        {
+            Region = region;
+        }
         /// <summary>
         /// Gets or Sets the source texture region represented by this sprite.
         /// </summary>

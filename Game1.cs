@@ -20,8 +20,10 @@ namespace Space_Invaders
         private const float MIN_POSITION = 20f;
         private const float MAX_POSITION = 800f;
         private const float SCENE_WIDTH = 800f;
+        private KeyboardState _previousKeyboardState;
 
-        // Defines the slime sprite.
+        private List<Bullet> _bullets = new List<Bullet>();
+        private Sprite _bulletSprite;
 
         public Game1()
         {
@@ -51,6 +53,8 @@ namespace Space_Invaders
                 new Row(atlas, "big-enemy-animation",3),
                 new Row(atlas, "big-enemy-animation",4),
             };
+            _bulletSprite = atlas.CreateSprite("bullet");
+            _bulletSprite.Scale = new Vector2(2f, 2f);
             _player = atlas.CreateAnimatedSprite("player-animation");
             _player.Scale = new Vector2(2f, 2f);
 
@@ -61,9 +65,12 @@ namespace Space_Invaders
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            _rows.ForEach(x => x.Update(gameTime));
             CheckKeyboardInput();
+            _rows.ForEach(x => x.Update(gameTime));
             _player.Update(gameTime);
+            _bullets.ForEach(x => x.Update(gameTime));
+            _bullets.RemoveAll(x => x.Origin.Y <= 0);
+
 
             base.Update(gameTime);
         }
@@ -77,7 +84,7 @@ namespace Space_Invaders
 
             _player.Draw(_spriteBatch, _playerPosition);
             _rows.ForEach(x => x.Draw(_spriteBatch));
-
+            _bullets.ForEach(x => x.Draw(_spriteBatch, _bulletSprite));
             // Always end the sprite batch when finished.
             _spriteBatch.End();
             base.Draw(gameTime);
@@ -97,12 +104,21 @@ namespace Space_Invaders
             {
                 _playerPosition.X -= speed;
             }
-
-            // If the D or Right keys are down, move the slime right on the screen.
             else if (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
             {
                 _playerPosition.X += speed;
             }
+
+
+            // Creates a bullet at the position of the player ship
+            if ((keyboardState.IsKeyDown(Keys.Up) && _previousKeyboardState.IsKeyUp(Keys.Up) ||
+                (keyboardState.IsKeyDown(Keys.W) && _previousKeyboardState.IsKeyUp(Keys.W))))
+            {
+                var newBullet = new Bullet(_playerPosition.X + 12);
+                _bullets.Add(newBullet);
+            }
+
+            // If the D or Right keys are down, move the slime right on the screen.
             if (_playerPosition.X < MIN_POSITION)
             {
                 _playerPosition.X = MIN_POSITION;
@@ -111,7 +127,7 @@ namespace Space_Invaders
             {
                 _playerPosition.X = MAX_POSITION;
             }
-
+            _previousKeyboardState = keyboardState;
         }
 
         private void Restart()

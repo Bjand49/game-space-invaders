@@ -79,6 +79,12 @@ namespace Space_Invaders.Core.Graphics
             return _regions.Remove(name);
         }
 
+        public Sprite CreateSprite(string regionName)
+        {
+            TextureRegion region = GetRegion(regionName);
+            return new Sprite(region);
+        }
+
         /// <summary>
         /// Removes all regions from this texture atlas.
         /// </summary>

@@ -15,30 +15,31 @@ namespace SpaceInvaders.Entities
         private float _x = 0;
         private float _y;
         private TimeSpan _lastUpdated = new TimeSpan();
-        private static readonly float SCALE = 4.0f;
-        private static readonly float X_INCREMENT = 4.0f;
+        private static readonly float SCALE = 3.0f;
+        private static readonly float X_INCREMENT = 3.0f;
         private static readonly int ROW_ENEMY_AMOUNT = 12;
-        private static readonly int ORIGIN_OFFSET = -22;
+        private static readonly int X_OFFSET = -25;
+        private static readonly int Y_OFFSET = -30;
         private List<AnimatedSprite> _enemies;
-        public Row(TextureAtlas atlas, string type, float y)
+        public Row(TextureAtlas atlas, string type, int index)
         {
             _enemies = new List<AnimatedSprite>();
-            for (int i = 1; i <= ROW_ENEMY_AMOUNT; i++)
+            for (int i = 0; i <= ROW_ENEMY_AMOUNT; i++)
             {
                 var enemy = atlas.CreateAnimatedSprite(type);
                 enemy.Scale = new Vector2(SCALE, SCALE);
-                enemy.Origin = new Vector2(i * ORIGIN_OFFSET, y);
+                enemy.Origin = new Vector2(i * X_OFFSET + X_OFFSET * 0.5f, index * Y_OFFSET + Y_OFFSET * 0.5f);
                 _enemies.Add(enemy);
             }
         }
         public void Update(GameTime gametime)
         {
-            if (gametime.TotalGameTime > _lastUpdated.Add(new TimeSpan(0,0,1)))
+            if (gametime.TotalGameTime > _lastUpdated.Add(new TimeSpan(0, 0, 1)))
             {
                 _x += 10;
                 _lastUpdated = gametime.TotalGameTime;
             }
-            if(_x > 100)
+            if (_x > 100)
             {
                 _y += 20;
                 _x = 0;

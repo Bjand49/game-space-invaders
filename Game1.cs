@@ -47,11 +47,11 @@ namespace Space_Invaders
             //  Create a TextureAtlas instance from the atlas
             TextureAtlas atlas = TextureAtlas.FromFile(Content, "images/atlas-definition.xml");
             _rows = new List<Row>(){
-                new Row(atlas, "small-enemy-animation",0),
-                new Row(atlas, "medium-enemy-animation",1),
-                new Row(atlas, "medium-enemy-animation",2),
-                new Row(atlas, "big-enemy-animation",3),
-                new Row(atlas, "big-enemy-animation",4),
+                new Row(atlas, "small",0),
+                new Row(atlas, "medium",1),
+                new Row(atlas, "medium",2),
+                new Row(atlas, "big",3),
+                new Row(atlas, "big",4),
             };
             _bulletSprite = atlas.CreateSprite("bullet");
             _bulletSprite.Scale = new Vector2(2f, 2f);
@@ -66,10 +66,10 @@ namespace Space_Invaders
                 Exit();
 
             CheckKeyboardInput();
-            _rows.ForEach(x => x.Update(gameTime));
+            _rows.ForEach(x => x.Update(gameTime,_bullets));
             _player.Update(gameTime);
             _bullets.ForEach(x => x.Update(gameTime));
-            _bullets.RemoveAll(x => x.Origin.Y <= 0);
+            _bullets.RemoveAll(x => x.Position.Y <= 0);
 
 
             base.Update(gameTime);

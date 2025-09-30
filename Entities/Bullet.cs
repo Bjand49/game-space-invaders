@@ -11,26 +11,28 @@ namespace SpaceInvaders.Entities
     public class Bullet
     {
         private TimeSpan _lastUpdated = new TimeSpan();
-        public Vector2 Origin { get; private set; }
+        public Vector2 Position;
+        public Rectangle Rectangle
+        {
+            get => new Rectangle((int)Position.X, (int)Position.Y, 2, 3);
+        }
 
         public Bullet(float xPostion)
         {
-            this.Origin = new Vector2(xPostion, 600f);
+            Position = new Vector2(xPostion, 600f);
         }
 
         public void Update(GameTime gametime)
         {
             if (gametime.TotalGameTime > _lastUpdated.Add(new TimeSpan(0, 0, 0, 0, 100)))
             {
-                var origin = this.Origin;
-                origin.Y -= 10f;
-                this.Origin = origin;
+                Position.Y -= 10;
             }
         }
 
         public void Draw(SpriteBatch batch, Sprite sprite)
         {
-            sprite.Draw(batch, this.Origin);
+            sprite.Draw(batch, Position);
         }
     }
 }

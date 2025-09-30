@@ -104,5 +104,10 @@ namespace Space_Invaders.Core.Graphics
         {
             Region.Draw(spriteBatch, position, Color, Rotation, Origin, Scale, Effects, LayerDepth);
         }
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, Color color)
+        {
+            Region.Draw(spriteBatch, position, color, Rotation, Origin, Scale, Effects, LayerDepth);
+        }
+
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Space_Invaders.Core.Graphics;
+using SpaceInvaders.Concepts;
 using System;
 using System.Reflection.Metadata;
 
@@ -12,9 +13,16 @@ namespace SpaceInvaders.Entities
     {
         private TimeSpan _lastUpdated = new TimeSpan();
         public Vector2 Position;
-        public Rectangle Rectangle
+        private readonly int WIDTH = 2;
+        private readonly int HEIGHT = 3;
+
+        public Rectangle Area
         {
-            get => new Rectangle((int)Position.X, (int)Position.Y, 2, 3);
+            get => new Rectangle(
+            (int)(Position.X - WIDTH * 0.5),
+            (int)(Position.Y - HEIGHT * 0.5),
+            WIDTH,
+            HEIGHT);
         }
 
         public Bullet(float xPostion)

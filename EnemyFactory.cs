@@ -18,34 +18,37 @@ namespace SpaceInvaders
         {
             Enemy enemy;
             Animation animation;
-
+            int width;
+            int height;
             switch (type)
             {
                 case "small":
+                    width = 12;
+                    height = 8;
                     animation = atlas.GetAnimation("small-enemy-animation");
-                    enemy = new Enemy(position, 12, 8, type)
-                    {
-                        Animation = animation,
-                    };
                     break;
+
                 case "medium":
+                    width = 10;
+                    height = 9;
                     animation = atlas.GetAnimation("medium-enemy-animation");
-                    enemy = new Enemy(position, 10, 9, type)
-                    {
-                        Animation = animation,
-                    };
                     break;
+
                 case "big":
+                    width = 14;
+                    height = 8;
                     animation = atlas.GetAnimation("big-enemy-animation");
-                    enemy = new Enemy(position, 14, 8, type)
-                    {
-                        Animation = animation,
-                    };
                     break;
 
                 default:
                     throw new NotImplementedException();
             }
+            position.X = position.X + width * 0.5f;
+            enemy = new Enemy(position, width, height, type)
+            {
+                Animation = animation,
+            };
+
             enemy.Scale = new Vector2(3f, 3f);
             return enemy;
 

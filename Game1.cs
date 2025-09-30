@@ -1,11 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using SharpDX.Direct2D1.Effects;
 using Space_Invaders.Core.Graphics;
 using Space_Invaders.Entities;
+using SpaceInvaders;
 using SpaceInvaders.Entities;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Space_Invaders
 {
@@ -66,7 +67,7 @@ namespace Space_Invaders
                 Exit();
 
             CheckKeyboardInput();
-            _rows.ForEach(x => x.Update(gameTime,_bullets));
+            _rows.ForEach(x => x.Update(gameTime, ref _bullets));
             _player.Update(gameTime);
             _bullets.ForEach(x => x.Update(gameTime));
             _bullets.RemoveAll(x => x.Position.Y <= 0);
@@ -81,7 +82,6 @@ namespace Space_Invaders
 
             // Begin the sprite batch to prepare for rendering.
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-
             _player.Draw(_spriteBatch, _playerPosition);
             _rows.ForEach(x => x.Draw(_spriteBatch));
             _bullets.ForEach(x => x.Draw(_spriteBatch, _bulletSprite));

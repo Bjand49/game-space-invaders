@@ -17,10 +17,13 @@ namespace Space_Invaders
         private SpriteBatch _spriteBatch;
         private AnimatedSprite _player;
         private Vector2 _playerPosition;
+        private int Points = 0;
+        private FontHandler _fontHandler = new FontHandler();
         private const float MOVEMENT_SPEED = 7.5f;
         private const float MIN_POSITION = 20f;
         private const float MAX_POSITION = 800f;
         private const float SCENE_WIDTH = 800f;
+
         private KeyboardState _previousKeyboardState;
 
         private List<Bullet> _bullets = new List<Bullet>();
@@ -44,6 +47,7 @@ namespace Space_Invaders
 
         protected override void LoadContent()
         {
+
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             //  Create a TextureAtlas instance from the atlas
             TextureAtlas atlas = TextureAtlas.FromFile(Content, "images/atlas-definition.xml");
@@ -54,6 +58,7 @@ namespace Space_Invaders
                 new Row(atlas, "big",3),
                 new Row(atlas, "big",4),
             };
+            _fontHandler.LoadFonts(Content);
             _bulletSprite = atlas.CreateSprite("bullet");
             _bulletSprite.Scale = new Vector2(2f, 2f);
             _player = atlas.CreateAnimatedSprite("player-animation");
@@ -67,7 +72,7 @@ namespace Space_Invaders
                 Exit();
 
             CheckKeyboardInput();
-            _rows.ForEach(x => x.Update(gameTime, ref _bullets));
+            _rows.ForEach(x => Points += x.Update(gameTime, ref _bullets));
             _player.Update(gameTime);
             _bullets.ForEach(x => x.Update(gameTime));
             _bullets.RemoveAll(x => x.Position.Y <= 0);
@@ -86,6 +91,7 @@ namespace Space_Invaders
             _rows.ForEach(x => x.Draw(_spriteBatch));
             _bullets.ForEach(x => x.Draw(_spriteBatch, _bulletSprite));
             // Always end the sprite batch when finished.
+            _fontHandler.Write(Vector2.One, Color.Wheat, $"Points: {Points * 10 }", _spriteBatch);
             _spriteBatch.End();
             base.Draw(gameTime);
         }

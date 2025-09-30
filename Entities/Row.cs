@@ -31,7 +31,7 @@ namespace SpaceInvaders.Entities
                 _enemies.Add(EnemyFactory.GetEnemy(atlas, type, position));
             }
         }
-        public void Update(GameTime gametime, ref List<Bullet> bullets)
+        public int Update(GameTime gametime, ref List<Bullet> bullets)
         {
             var xIncrement = 0f;
             var yIncrement = 0f;
@@ -74,6 +74,7 @@ namespace SpaceInvaders.Entities
                 x.Update(gametime, xIncrement, yIncrement);
 
             });
+            return bulletsToRemove.Count;
         }
 
         public void Draw(SpriteBatch batch)
